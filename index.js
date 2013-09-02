@@ -173,6 +173,7 @@ OssClient.prototype.doRequest = function (method, metas, ossParams, callback) {
   if(Buffer.isBuffer(ossParams.srcFile) && method === 'PUT') {
     options.body = ossParams.srcFile;
   }
+  console.log(options);
   var req = request(options, function (error, response, body) {
     if (error) {
       callback(error);
@@ -401,6 +402,9 @@ OssClient.prototype.listObject = function (/*bucket , prefix, marker, delimiter,
   
   callback = typeof args[args.length -1] === "function" ? args.pop() : noop;
   ossParams.prefix = (args.length ? args.shift() : null);
+  ossParams.prefix = ossParams.split("/").map(function (item) {
+    return encodeURIComponent(item);
+  }).join("/");
   ossParams.marker = (args.length ? args.shift() : null);
   ossParams.delimiter = (args.length ? args.shift() : null);
   ossParams.maxKeys = (args.length ? args.shift() : null);
