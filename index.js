@@ -402,7 +402,7 @@ OssClient.prototype.listObject = function (/*bucket , prefix, marker, delimiter,
   
   callback = typeof args[args.length -1] === "function" ? args.pop() : noop;
   ossParams.prefix = (args.length ? args.shift() : null);
-  ossParams.prefix = ossParams.split("/").map(function (item) {
+  ossParams.prefix = ossParams.prefix.split("/").map(function (item) {
     return encodeURIComponent(item);
   }).join("/");
   ossParams.marker = (args.length ? args.shift() : null);
